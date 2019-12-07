@@ -9,40 +9,29 @@ html {
     height: 100%;
 }
 
-input {
-    width: 50%;
-    font-size: 1.2rem;
-    padding: 0.6rem 1.2rem;
-    margin: 1rem;
-}
-
-select {
-    width: 10%;
-    min-width: 8rem;
-    font-size: 1.2rem;
-    margin: 1rem;
-}
-
-option {
-    font-size: 1.2rem;
-}
-
-button {
-    font-size: 1.2rem;
-    padding: 0.6rem 1.2rem;
-    margin: 1rem;
-}
-
-li {
-    font-size: 1.2rem;
-}
-
-#app {
+.row {
     width: 80%;
     height: 100%;
     background-color: #CACACA;
 }
 #mapid { 
-	height: 400px; 
-	width: 400px;
+	height: 500px; 
+	width: 500px;
 }
+#type, #text, #location {
+    font-size: 1.3rem;
+}
+
+#submit {
+    font-size: 1.3rem;
+    padding: 0.6rem 1.2rem;
+    margin: 1rem;
+}
+
+.table, table, th, td {
+  border: 1px solid black;
+}
+ th{
+	 font-size: 1.5rem;
+ }
+

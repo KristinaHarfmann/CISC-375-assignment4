@@ -18,12 +18,11 @@
 <div id="map">	
 	<div id="mapid">
 		<script>
-			
 			var mymap = L.map('mapid').setView([44.9537, -93.0900], 13);
 			L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1Ijoia2hhcmYiLCJhIjoiY2szdGl6a2R0MDMzZTNlcGc2YXZrMXRjNSJ9.E74mvzdI6e4Gq32QoHu8dQ', {
 				attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
 				maxZoom: 18,
-				maxNativeZoom:18,
+				minZoom: 11,
 				id: 'mapbox/streets-v11',
 				accessToken: 'pk.eyJ1Ijoia2hhcmYiLCJhIjoiY2szdGl6a2R0MDMzZTNlcGc2YXZrMXRjNSJ9.E74mvzdI6e4Gq32QoHu8dQ'
 			}).addTo(mymap);
@@ -33,13 +32,15 @@
 			var southEast = L.latLng(44.891888, -93.004966);
 			var myBounds = L.latLngBounds(northWest, southEast);
 			mymap.setMaxBounds(myBounds);
-			mymap.options.maxZoom = 18;
 			
-			mymap.on('move', function (e) {
-				var cnt = mymap.getCenter();
-				lat = Number(cnt['lat']).toFixed(5);
-				lng = Number(cnt['lng']).toFixed(5);
-				document.getElementById("myText").value = lat + " , "+ lng;
+			mymap.on('dragend', function (e) {
+				let center = mymap.getCenter();
+				app.center.latitude = center.lat;
+				app.center.latitude = center.lng;
+				//lat = Number(cnt['lat']).toFixed(5);
+				//lng = Number(cnt['lng']).toFixed(5);
+				
+				//document.getElementById("myText").value = lat + " , "+ lng;
 			});	
 			
 			function myFunction(){
@@ -54,6 +55,7 @@
 				}
 			}
 		</script>
+
 	</div>
 	<label for="Location">Location: </label>
 	<input type = "text" id = "myText" value = "text here" />

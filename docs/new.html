@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Crime Map</title>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1"/>
+		<link rel="stylesheet" href="css/style.css"/>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta/css/bootstrap.min.css">
+		<link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css">
+		
+	</head>
+	<body>
+		<div id="app" class="container">
+			 <div class="row">
+				<div class="col-md-9">
+					<div id="mapid"> </div>
+					<!-- The map goes here -->
+				</div>
+				<div class="col-md-3">
+					<label id ="location" for="Location">Location: </label>
+					<textarea id ="text" v-model="latlng" v-model="lng" placeholder="add location"></textarea>
+					<select id="type">6
+					  <option value="lat/lng">Lat/Long Coordinates</option>
+					  <option value="address">Address</option>
+					</select>
+					<button id="submit" type="button" v-on:click="submit">Submit</button>
+					<!-- The checkboxes go here -->
+				</div>
+			</div>
+			<div class="table">
+				<table>
+					<thead>
+						<tr>
+							<th> Date </th>
+							<th> Time </th>
+							<th> Code </th>
+							<th> Incident Type</th>
+							<th> Police Grid </th>
+							<th> Neighborhood Name </th>
+							<th> Block </th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.3.4/vue.min.js"></script>
+		<script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"></script>	
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+		<script src="new.js"></script>
+	</body>
+</html>

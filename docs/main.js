@@ -1,6 +1,7 @@
 var app = new Vue({
-  el: '#map',
+  el: '#app',
   data: {
-    message: 'Hello Vue!'
-  }
+    latitude: 44.9537,
+	longitude: -93.0900,
+  },
 })
