@@ -1,11 +1,10 @@
 var app = new Vue({
   el: '#app',
   data: {
-	map: null,
-	tileLayer: null,
-	layers: [],
 	latlng: "44.9537, -93.0900",
 	type: "lat/lng",
+	url: "http://cisc-dean.stthomas.edu:8019/",
+	incData: [],
   },
   mounted() {
 	  this.initMap();
@@ -29,11 +28,12 @@ var app = new Vue({
 		var southEast = L.latLng(44.891888, -93.004966);
 		var myBounds = L.latLngBounds(northWest, southEast);
 		myMap.setMaxBounds(myBounds);
-		
+	
+		mapSearch();
 	  },
 	  getCord()
 	  {
-		  myMap.on('dragend', function (e) {
+		  myMap.on('move', function (e) {
 			  app.type = document.getElementById("type").value;
 			  let center = myMap.getCenter();
 			if(app.type == "lat/lng")
@@ -73,3 +73,15 @@ var app = new Vue({
 	  },
 	},//methods
 });
+
+function mapSearch() 
+{
+	//console.log(app.url);
+  $.ajax('http://cisc-dean.stthomas.edu:8019/' + '/incidents',
+  {
+	  dataType: "json",
+	  success: function(data){
+		app.incData = data;
+	  }
+  });	
+};

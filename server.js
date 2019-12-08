@@ -9,7 +9,7 @@ var cors = require('cors');
 var app = express();
 app.use(express.static(__dirname));
 app.use(bodyParser.urlencoded({extended: true}));
-var port = 8000;
+var port = process.argv[2];
 var db_filename = path.join(__dirname, 'db', 'stpaul_crime.sqlite3');
 
 // open stpaul_crime.sqlite3 database
