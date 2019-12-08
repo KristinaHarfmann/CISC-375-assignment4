@@ -5,10 +5,18 @@ var app = new Vue({
 	type: "lat/lng",
 	url: "http://cisc-dean.stthomas.edu:8019/",
 	incData: [],
+	bounds: [],
+	neighborhoods: [],
+	codes: [],
+	selecNeigh: [],
+	selecInc: [],
   },
   mounted() {
 	  this.initMap();
 	  this.getCord();
+	  this.mapSearch();
+	  this.neighSearch();
+	  this.codeSearch();
   },
   methods: {
 	  initMap() {
@@ -28,13 +36,13 @@ var app = new Vue({
 		var southEast = L.latLng(44.891888, -93.004966);
 		var myBounds = L.latLngBounds(northWest, southEast);
 		myMap.setMaxBounds(myBounds);
-	
-		mapSearch();
 	  },
 	  getCord()
 	  {
 		  myMap.on('move', function (e) {
 			  app.type = document.getElementById("type").value;
+			  app.bounds = myMap.getBounds();
+			  //console.log(app.bounds._northEast);
 			  let center = myMap.getCenter();
 			if(app.type == "lat/lng")
 			  {
@@ -71,17 +79,48 @@ var app = new Vue({
 			  });	
 		  }//else
 	  },
+		check: function (event) {
+			console.log(app.selecInc);
+			newCodes = app.selecInc;
+			$.ajax("http://cisc-dean.stthomas.edu:8019/" + 'incidents?start_date=2019-10-01&end_date=2019-10-31&code=' + newCodes,
+		  {
+			  dataType: "json",
+			  success: function(data){
+				app.incData = data;
+				//console.log(app.incData);
+			  }
+		  });
+		},
+		mapSearch() {
+			  $.ajax("http://cisc-dean.stthomas.edu:8019/" + 'incidents?start_date=2019-10-01&end_date=2019-10-31',
+			  {
+				  dataType: "json",
+				  success: function(data){
+					app.incData = data;
+					//console.log(app.incData);
+				  }
+			  });
+		},
+		neighSearch() {
+			$.ajax("http://cisc-dean.stthomas.edu:8019/" + 'neighborhoods',
+			  {
+				  dataType: "json",
+				  success: function(data){
+					app.neighborhoods = data;
+					//console.log(data);
+				  }
+			  });
+		},
+		codeSearch() {
+			$.ajax("http://cisc-dean.stthomas.edu:8019/" + 'codes',
+			  {
+				  dataType: "json",
+				  success: function(data){
+					app.codes = data;
+					//console.log(data);
+				  }
+			  });
+		},
 	},//methods
 });
 
-function mapSearch() 
-{
-	//console.log(app.url);
-  $.ajax('http://cisc-dean.stthomas.edu:8019/' + '/incidents',
-  {
-	  dataType: "json",
-	  success: function(data){
-		app.incData = data;
-	  }
-  });	
-};

@@ -25,12 +25,19 @@
 					</select>
 					<button id="submit" type="button" v-on:click="submit">Submit</button>
 					<!-- The checkboxes go here -->
+					<div id="checkbox-neighbor" v-model="selecNeigh" v-for="item in neighborhoods">
+						<input id="check" type="checkbox" value=item v-on:click="check">{{ item }}</input><br>
+					</div>
+				</div>
+				<div class="col-md-4" id="checkboxs-incident" v-model="selecInc" v-for="item in codes">
+					<input id="check" type="checkbox" value=item v-on:click="check">{{ item }}</input><br>
 				</div>
 			</div>
 			<div class="table">
 				<table>
 					<thead>
 						<tr>
+							<th> Incident Number </th>
 							<th> Date </th>
 							<th> Time </th>
 							<th> Code </th>
@@ -41,7 +48,15 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
+						<tr v-for="item in incData">
+							<td>{{ incData[0] }} </td>
+							<td>{{ item.date }} </td>
+							<td>{{ item.time }} </td>
+							<td>{{ item.code }} </td>
+							<td>{{ item.incident }} </td>
+							<td>{{ item.police_grid }} </td>
+							<td>{{ neighborhoods["N" +item.neighborhood_number] }} </td>
+							<td>{{ item.block }} </td>
 						</tr>
 					</tbody>
 				</table>
