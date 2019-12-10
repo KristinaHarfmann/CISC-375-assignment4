@@ -6,25 +6,25 @@ var app = new Vue({
 	url: "http://cisc-dean.stthomas.edu:8019/",
 	fullData: [],
 	bounds: [], 
-	neighborhoods: {
-	"Conway/Battlecreek/Highwood": { "lat": 44.936383, "lng": -93.024532 },
-	"Greater East Side": { lat: 44.977610, lng: -93.024602 },
-	"West Side": { lat: 44.928944, lng: -93.078443 },
-	"Dayton's Bluff": { lat: 44.956316, lng: -93.062232 },
-	"Payne/Phalen": { lat: 44.977068, lng: -93.065946 },
-	"North End": { lat: 44.977127, lng: -93.109990 },
-	"Thomas/Dale(Frogtown)": { lat: 44.959894, lng: -93.122334 },
-	"Summit/University": { lat: 44.951839, lng: -93.124963 },
-	"West Seventh": { lat: 44.928629, lng: -93.126618 },
-	"Como": { lat: 44.980425, lng: -93.155332 },
-	"Hamlin/Midway": { lat: 44.962336, lng: -93.164337 },
-	"St. Anthony": { lat: 44.967889, lng: -93.196339 },
-	"Union Park": { lat: 44.948075, lng: -93.174914 },
-	"Macalester-Groveland": { lat: 44.933344, lng: -93.166897 },
-	"Highland": { lat: 44.911918, lng: -93.176684 },
-	"Summit Hill": { lat: 44.936938, lng:  -93.137956 },
-	"Capitol River": { lat: 44.957122, lng: -93.102902 }
-	},
+	neighborhoods: [
+	["Conway/Battlecreek/Highwood", 44.936383, -93.024532],
+	["Greater East Side",44.977610,-93.024602 ],
+	["West Side", 44.928944, -93.078443 ],
+	["Dayton's Bluff", 44.956316, -93.062232 ],
+	["Payne/Phalen", 44.977068, -93.065946 ],
+	["North End", 44.977127, -93.109990 ],
+	["Thomas/Dale(Frogtown)",44.959894, -93.122334 ],
+	["Summit/University", 44.951839, -93.124963 ],
+	["West Seventh", 44.928629, -93.126618 ],
+	["Como", 44.980425, -93.155332 ],
+	["Hamlin/Midway", 44.962336,  -93.164337 ],
+	["St. Anthony", 44.967889, -93.196339 ],
+	["Union Park", 44.948075, -93.174914 ],
+	["Macalester-Groveland", 44.933344, -93.166897 ],
+	["Highland", 44.911918, -93.176684 ],
+	["Summit Hill", 44.936938, -93.137956 ],
+	["Capitol River", 44.957122, -93.102902 ]
+	],
 	neighCord: [], //manually set up lat and lng
 	codes: [],
 	selecNeigh: [],
@@ -175,11 +175,7 @@ function mapSearch() {
 			//console.log(app.incData);
 		  }
 	  });
-		//var marker = L.marker([lat, long])
-		//.addTo(myMap)
-		//.bindPopup(
-		//`<h2> Initial Location </h2> lat:<b>${lat}</b>, long:<b>${long}</b>`
-		//);
+
 }
 function Prompt() {
 	$("#dialog-form").dialog({
