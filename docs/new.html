@@ -7,9 +7,16 @@
 		<link rel="stylesheet" href="css/style.css"/>
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta/css/bootstrap.min.css">
 		<link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css">
+		<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+		<script type="application/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+		<script type="application/javascript" src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 	</head>
-	<body>
-	
+	<body <!--onload="Prompt()"-->>
+	<!-- 
+	    <div id="dialog-form">
+			<label for="name">URL for St. Paul Crime API:</label>
+			<input type="text" id="prompt_input" class="text ui-widget-content ui-corner-all" style="width: 320px;"/>
+		</div> -->
 		<div id="app" class="container">
 			 <div class="row">
 				<div class="col-md-9">
@@ -37,9 +44,9 @@
 					<label id="checks"> Time: </label>
 					<div id="time">
 					  	<label id ="time" for="Date">Start Time: </label>
-						<input id="time" type="time" v-model="startTime" v-on:click="fixTime"></input><br>
+						<input id="time" type="time" v-model="startTime"></input><br>
 						<label id ="time" for="Date">End Time: </label>
-						<input id="time" type="time" v-model="endTime" v-on:click="fixTime"></input><br>
+						<input id="time" type="time" v-model="endTime" ></input><br>
 					</div>
 					
 					<label id="checks"> Neighborhoods: </label>
@@ -67,7 +74,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr v-for="(item,key) in incData">
+						<tr v-for="(item,key) in fullData">
 							<td>{{ key }} </td>
 							<td>{{ item.date }} </td>
 							<td>{{ item.time }} </td>

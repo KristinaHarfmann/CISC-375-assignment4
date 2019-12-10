@@ -4,9 +4,28 @@ var app = new Vue({
 	latlng: "44.9537, -93.0900",
 	type: "lat/lng",
 	url: "http://cisc-dean.stthomas.edu:8019/",
-	incData: [],
-	bounds: [],
-	neighborhoods: [],
+	fullData: [],
+	bounds: [], 
+	neighborhoods: [
+	"Conway/Battlecreek/Highwood": { lat: 44.936383, lng: -93.024532 },
+	"Greater East Side": { lat: 44.977610, lng: -93.024602 },
+	"West Side": { lat: 44.928944, lng: -93.078443 },
+	"Dayton's Bluff": { lat: 44.956316, lng: -93.062232 },
+	"Payne/Phalen": { lat: 44.977068, lng: -93.065946 },
+	"North End": { lat: 44.977127, lng: -93.109990 },
+	"Thomas/Dale(Frogtown)": { lat: 44.959894, lng: -93.122334 },
+	"Summit/University": { lat: 44.951839, lng: -93.124963 },
+	"West Seventh": { lat: 44.928629, lng: -93.126618 },
+	"Como": { lat: 44.980425, lng: -93.155332 },
+	"Hamlin/Midway": { lat: 44.962336, lng: -93.164337 },
+	"St. Anthony": { lat: 44.967889, lng: -93.196339 },
+	"Union Park": { lat: 44.948075, lng: -93.174914 },
+	"Macalester-Groveland": { lat: 44.933344, lng: -93.166897 },
+	"Highland": { lat: 44.911918 lng: -93.176684 },
+	"Summit Hill": { lat: 44.936938, lng:  -93.137956},
+	"Capitol River": { lat: 44.957122, lng: -93.102902 },
+	],
+	neighCord: [], //manually set up lat and lng
 	codes: [],
 	selecNeigh: [],
 	selecInc: [],
@@ -18,7 +37,7 @@ var app = new Vue({
   mounted() {
 	  this.initMap();
 	  this.getCord();
-	  this.mapSearch();
+	  mapSearch();
 	  this.neighSearch();
 	  this.codeSearch();
   },
@@ -43,7 +62,7 @@ var app = new Vue({
 	  },
 	  getCord()
 	  {
-		  myMap.on('move', function (e) {
+		  myMap.on('moveend', function (e) {
 			  app.type = document.getElementById("type").value;
 			  let center = myMap.getCenter();
 			if(app.type == "lat/lng")
@@ -113,54 +132,17 @@ var app = new Vue({
 		  {
 			  dataType: "json",
 			  success: function(data){
-				app.incData = data;
+				app.fullData = data;
 				//console.log(app.incData);
 			  }
 		  });
 		},
-		fixTime: function (event) {
-			app.check();//need to make sure table data is most up to date
-			var newData = [];
-			var j = 0;
-			for(i=0; i < Object.keys(app.incData).length; i++)
-			{
-				//time needs to be in 24 hrs
-				var checkTime = app.incData[Object.keys(app.incData)[i]].time;
-				if(checkTime >> app.startTime && checkTime << app.endTime)
-				{
-					newData[j] = app.incData[Object.keys(app.incData)[i]];
-					j = j + 1;
-				}
-			}
-			app.incData = newData;
-		},
 		fixLocation: function (event) {
-			app.check();//need to make sure table data is most up to date
+
 			app.bounds = myMap.getBounds();
 			
-			for(i=0; i < Object.keys(app.incData).length; i++)
-			{
-				var block = app.incData[Object.keys(app.incData)[i]].block;
-				var viexbox = app.bounds._northEast.lat + ',' + app.bounds._northEast.lng + ',' + app.bounds._southWest.lat + ',' + app.bounds._southWest.lng;
-				//$.ajax('http://nominatim.openstreetmap.org/search?addressdetails=1&q='+ block + '&viewbox='+ viewbox +'&bounded=1&format=json&limit=1',
-				//{
-					//dataType: "json",
-					//success: function(data){
-						//app.incData = data;
-					//}
-				//});	
-			}
 		},
-		mapSearch() {
-			  $.ajax("http://cisc-dean.stthomas.edu:8019/" + 'incidents?start_date=2019-10-01&end_date=2019-10-31',
-			  {
-				  dataType: "json",
-				  success: function(data){
-					app.incData = data;
-					//console.log(app.incData);
-				  }
-			  });
-		},
+
 		neighSearch() {
 			$.ajax("http://cisc-dean.stthomas.edu:8019/" + 'neighborhoods',
 			  {
@@ -184,3 +166,39 @@ var app = new Vue({
 	},//methods
 });
 
+function mapSearch() {
+	  $.ajax("http://cisc-dean.stthomas.edu:8019/" + 'incidents?start_date=2019-10-01&end_date=2019-10-31',
+	  {
+		  dataType: "json",
+		  success: function(data){
+			app.fullData = data;
+			//console.log(app.incData);
+		  }
+	  });
+		//var marker = L.marker([lat, long])
+		//.addTo(myMap)
+		//.bindPopup(
+		//`<h2> Initial Location </h2> lat:<b>${lat}</b>, long:<b>${long}</b>`
+		//);
+}
+function Prompt() {
+	$("#dialog-form").dialog({
+		autoOpen: true,
+		modal: true,
+		width: "360px",
+		buttons: {
+			"Ok": function() {
+				var prompt_input = $("#prompt_input");
+				Init(prompt_input.val());
+				$(this).dialog("close");
+			},
+			"Cancel": function() {
+				$(this).dialog("close");
+			}
+		}
+	});
+}
+
+function Init(crime_api_url) {
+	console.log(crime_api_url);
+}
