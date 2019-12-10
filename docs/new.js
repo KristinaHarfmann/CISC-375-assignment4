@@ -10,6 +10,10 @@ var app = new Vue({
 	codes: [],
 	selecNeigh: [],
 	selecInc: [],
+	startDate: "2019-10-01",
+	endDate: "2019-10-31",
+	startTime: "",
+	endTime: "",
   },
   mounted() {
 	  this.initMap();
@@ -41,8 +45,6 @@ var app = new Vue({
 	  {
 		  myMap.on('move', function (e) {
 			  app.type = document.getElementById("type").value;
-			  app.bounds = myMap.getBounds();
-			  //console.log(app.bounds._northEast);
 			  let center = myMap.getCenter();
 			if(app.type == "lat/lng")
 			  {
@@ -58,7 +60,8 @@ var app = new Vue({
 					  }
 				  });	
 			  }//else
-			});	//dragend		
+			app.fixLocation();
+			});	//move		
 	  },
 	  submit: function (event) {
 		  app.type = document.getElementById("type").value;
@@ -80,9 +83,33 @@ var app = new Vue({
 		  }//else
 	  },
 		check: function (event) {
-			console.log(app.selecInc);
-			newCodes = app.selecInc;
-			$.ajax("http://cisc-dean.stthomas.edu:8019/" + 'incidents?start_date=2019-10-01&end_date=2019-10-31&code=' + newCodes,
+
+			var fixCodes = [];
+			var fixNeigh = [];
+			for(i=0; i < app.selecInc.length; i++)
+			{
+				fixCodes[i] = app.selecInc[i].substr(1);
+			}
+
+			for(i=0; i < app.selecNeigh.length; i++)
+			{
+				fixNeigh[i] = app.selecNeigh[i].substr(1);
+			}
+			
+			var endUrl = '';
+			if(app.selecInc.length != 0)
+			{
+				endUrl = "&code="+fixCodes;
+			}
+			if(app.selecNeigh.length != 0)
+			{
+				endUrl = endUrl + "&id="+fixNeigh;
+			}
+			
+			endUrl = endUrl + "&start_date=" + app.startDate;
+			endUrl = endUrl + "&end_date=" + app.endDate;
+			
+			$.ajax("http://cisc-dean.stthomas.edu:8019/" + 'incidents?'+ endUrl,
 		  {
 			  dataType: "json",
 			  success: function(data){
@@ -90,6 +117,39 @@ var app = new Vue({
 				//console.log(app.incData);
 			  }
 		  });
+		},
+		fixTime: function (event) {
+			app.check();//need to make sure table data is most up to date
+			var newData = [];
+			var j = 0;
+			for(i=0; i < Object.keys(app.incData).length; i++)
+			{
+				//time needs to be in 24 hrs
+				var checkTime = app.incData[Object.keys(app.incData)[i]].time;
+				if(checkTime >> app.startTime && checkTime << app.endTime)
+				{
+					newData[j] = app.incData[Object.keys(app.incData)[i]];
+					j = j + 1;
+				}
+			}
+			app.incData = newData;
+		},
+		fixLocation: function (event) {
+			app.check();//need to make sure table data is most up to date
+			app.bounds = myMap.getBounds();
+			
+			for(i=0; i < Object.keys(app.incData).length; i++)
+			{
+				var block = app.incData[Object.keys(app.incData)[i]].block;
+				var viexbox = app.bounds._northEast.lat + ',' + app.bounds._northEast.lng + ',' + app.bounds._southWest.lat + ',' + app.bounds._southWest.lng;
+				//$.ajax('http://nominatim.openstreetmap.org/search?addressdetails=1&q='+ block + '&viewbox='+ viewbox +'&bounded=1&format=json&limit=1',
+				//{
+					//dataType: "json",
+					//success: function(data){
+						//app.incData = data;
+					//}
+				//});	
+			}
 		},
 		mapSearch() {
 			  $.ajax("http://cisc-dean.stthomas.edu:8019/" + 'incidents?start_date=2019-10-01&end_date=2019-10-31',

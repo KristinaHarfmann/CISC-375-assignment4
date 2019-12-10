@@ -23,14 +23,33 @@
 					  <option value="lat/lng">Lat/Long Coordinates</option>
 					  <option value="address">Address</option>
 					</select>
-					<button id="submit" type="button" v-on:click="submit">Submit</button>
-					<!-- The checkboxes go here -->
-					<div id="checkbox-neighbor" v-model="selecNeigh" v-for="item in neighborhoods">
-						<input id="check" type="checkbox" value=item v-on:click="check">{{ item }}</input><br>
+					
+					<button id="submit" type="button" v-on:click="submit">Submit</button><br>
+
+					<label id="checks"> Dates: </label>
+					<div id="dates">
+						<label id ="date" for="Date">Start Date: </label>
+						<input id="date" type="date" v-model="startDate" v-on:click="check"></input><br>
+						<label id ="date" for="Date">End Date: </label>
+						<input id="date" type="date" v-model="endDate" v-on:click="check"></input><br>
+					</div>
+					
+					<label id="checks"> Time: </label>
+					<div id="time">
+					  	<label id ="time" for="Date">Start Time: </label>
+						<input id="time" type="time" v-model="startTime" v-on:click="fixTime"></input><br>
+						<label id ="time" for="Date">End Time: </label>
+						<input id="time" type="time" v-model="endTime" v-on:click="fixTime"></input><br>
+					</div>
+					
+					<label id="checks"> Neighborhoods: </label>
+					<div id="checkbox-neighbor"  v-for="(item,key) in neighborhoods">
+						<input id="check" type="checkbox" v-model="selecNeigh" :value="key" v-on:click="check">{{ key }}: {{ item }}</input><br>
 					</div>
 				</div>
-				<div class="col-md-4" id="checkboxs-incident" v-model="selecInc" v-for="item in codes">
-					<input id="check" type="checkbox" value=item v-on:click="check">{{ item }}</input><br>
+				<label id="checks"> Types of Incidents: </label>
+				<div class="col-md-4" id="checkboxs-incident"  v-for="(item,key) in codes">
+					<input id="check" type="checkbox"  v-model="selecInc" :value="key" v-on:click="check">{{ key }}: {{ item }}</input><br>
 				</div>
 			</div>
 			<div class="table">
@@ -48,8 +67,8 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr v-for="item in incData">
-							<td>{{ incData[0] }} </td>
+						<tr v-for="(item,key) in incData">
+							<td>{{ key }} </td>
 							<td>{{ item.date }} </td>
 							<td>{{ item.time }} </td>
 							<td>{{ item.code }} </td>
