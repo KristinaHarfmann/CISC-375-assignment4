@@ -6,7 +6,8 @@ var app = new Vue({
 	url: "http://cisc-dean.stthomas.edu:8019/",
 	fullData: [],
 	bounds: [], 
-	neighborhoods: [
+	neighborhoods: [],
+	neighCord: [
 	["Conway/Battlecreek/Highwood", 44.936383, -93.024532],
 	["Greater East Side",44.977610,-93.024602 ],
 	["West Side", 44.928944, -93.078443 ],
@@ -24,8 +25,7 @@ var app = new Vue({
 	["Highland", 44.911918, -93.176684 ],
 	["Summit Hill", 44.936938, -93.137956 ],
 	["Capitol River", 44.957122, -93.102902 ]
-	],
-	neighCord: [], //manually set up lat and lng
+	], //manually set up lat and lng
 	codes: [],
 	selecNeigh: [],
 	selecInc: [],
@@ -59,6 +59,12 @@ var app = new Vue({
 		var southEast = L.latLng(44.891888, -93.004966);
 		var myBounds = L.latLngBounds(northWest, southEast);
 		myMap.setMaxBounds(myBounds);
+		
+		for (var i = 0; i < app..length; i++) {
+			marker = new L.marker([planes[i][1],planes[i][2]])
+			.bindPopup(planes[i][0])
+			.addTo(myMap);
+		}
 	  },
 	  getCord()
 	  {
