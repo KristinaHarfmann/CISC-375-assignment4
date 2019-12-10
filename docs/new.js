@@ -8,23 +8,23 @@ var app = new Vue({
 	bounds: [], 
 	neighborhoods: [],
 	neighCord: [
-	["Conway/Battlecreek/Highwood", 44.936383, -93.024532],
-	["Greater East Side",44.977610,-93.024602 ],
-	["West Side", 44.928944, -93.078443 ],
-	["Dayton's Bluff", 44.956316, -93.062232 ],
-	["Payne/Phalen", 44.977068, -93.065946 ],
-	["North End", 44.977127, -93.109990 ],
-	["Thomas/Dale(Frogtown)",44.959894, -93.122334 ],
-	["Summit/University", 44.951839, -93.124963 ],
-	["West Seventh", 44.928629, -93.126618 ],
-	["Como", 44.980425, -93.155332 ],
-	["Hamlin/Midway", 44.962336,  -93.164337 ],
-	["St. Anthony", 44.967889, -93.196339 ],
-	["Union Park", 44.948075, -93.174914 ],
-	["Macalester-Groveland", 44.933344, -93.166897 ],
-	["Highland", 44.911918, -93.176684 ],
-	["Summit Hill", 44.936938, -93.137956 ],
-	["Capitol River", 44.957122, -93.102902 ]
+		["Conway/Battlecreek/Highwood", 44.936383, -93.024532],
+		["Greater East Side",44.977610,-93.024602 ],
+		["West Side", 44.928944, -93.078443 ],
+		["Dayton's Bluff", 44.956316, -93.062232 ],
+		["Payne/Phalen", 44.977068, -93.065946 ],
+		["North End", 44.977127, -93.109990 ],
+		["Thomas/Dale(Frogtown)",44.959894, -93.122334 ],
+		["Summit/University", 44.951839, -93.124963 ],
+		["West Seventh", 44.928629, -93.126618 ],
+		["Como", 44.980425, -93.155332 ],
+		["Hamlin/Midway", 44.962336,  -93.164337 ],
+		["St. Anthony", 44.967889, -93.196339 ],
+		["Union Park", 44.948075, -93.174914 ],
+		["Macalester-Groveland", 44.933344, -93.166897 ],
+		["Highland", 44.911918, -93.176684 ],
+		["Summit Hill", 44.936938, -93.137956 ],
+		["Capitol River", 44.957122, -93.102902 ]
 	], //manually set up lat and lng
 	codes: [],
 	selecNeigh: [],
@@ -37,7 +37,7 @@ var app = new Vue({
   mounted() {
 	  this.initMap();
 	  this.getCord();
-	  mapSearch();
+	  this.mapSearch();
 	  this.neighSearch();
 	  this.codeSearch();
   },
@@ -60,9 +60,9 @@ var app = new Vue({
 		var myBounds = L.latLngBounds(northWest, southEast);
 		myMap.setMaxBounds(myBounds);
 		
-		for (var i = 0; i < app..length; i++) {
-			marker = new L.marker([planes[i][1],planes[i][2]])
-			.bindPopup(planes[i][0])
+		for (var i = 0; i < this.neighCord.length; i++) {
+			marker = new L.marker([this.neighCord[i][1],this.neighCord[i][2]])
+			.bindPopup(this.neighCord[i][0])
 			.addTo(myMap);
 		}
 	  },
@@ -134,7 +134,7 @@ var app = new Vue({
 			endUrl = endUrl + "&start_date=" + app.startDate;
 			endUrl = endUrl + "&end_date=" + app.endDate;
 			
-			$.ajax("http://cisc-dean.stthomas.edu:8019/" + 'incidents?'+ endUrl,
+			$.ajax(this.url + 'incidents?'+ endUrl,
 		  {
 			  dataType: "json",
 			  success: function(data){
@@ -148,9 +148,19 @@ var app = new Vue({
 			app.bounds = myMap.getBounds();
 			
 		},
-
+		mapSearch() {
+			console.log(this.url);
+		  $.ajax(this.url + 'incidents?start_date=2019-10-01&end_date=2019-10-31',
+		  {
+			  dataType: "json",
+			  success: function(data){
+				app.fullData = data;
+				//console.log(app.incData);
+			  }
+		  });
+		},
 		neighSearch() {
-			$.ajax("http://cisc-dean.stthomas.edu:8019/" + 'neighborhoods',
+			$.ajax(this.url + 'neighborhoods',
 			  {
 				  dataType: "json",
 				  success: function(data){
@@ -160,7 +170,7 @@ var app = new Vue({
 			  });
 		},
 		codeSearch() {
-			$.ajax("http://cisc-dean.stthomas.edu:8019/" + 'codes',
+			$.ajax(this.url + 'codes',
 			  {
 				  dataType: "json",
 				  success: function(data){
@@ -172,17 +182,6 @@ var app = new Vue({
 	},//methods
 });
 
-function mapSearch() {
-	  $.ajax("http://cisc-dean.stthomas.edu:8019/" + 'incidents?start_date=2019-10-01&end_date=2019-10-31',
-	  {
-		  dataType: "json",
-		  success: function(data){
-			app.fullData = data;
-			//console.log(app.incData);
-		  }
-	  });
-
-}
 function Prompt() {
 	$("#dialog-form").dialog({
 		autoOpen: true,
