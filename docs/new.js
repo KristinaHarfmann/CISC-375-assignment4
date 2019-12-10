@@ -6,8 +6,8 @@ var app = new Vue({
 	url: "http://cisc-dean.stthomas.edu:8019/",
 	fullData: [],
 	bounds: [], 
-	neighborhoods: [
-	"Conway/Battlecreek/Highwood": { lat: 44.936383, lng: -93.024532 },
+	neighborhoods: {
+	"Conway/Battlecreek/Highwood": { "lat": 44.936383, "lng": -93.024532 },
 	"Greater East Side": { lat: 44.977610, lng: -93.024602 },
 	"West Side": { lat: 44.928944, lng: -93.078443 },
 	"Dayton's Bluff": { lat: 44.956316, lng: -93.062232 },
@@ -21,10 +21,10 @@ var app = new Vue({
 	"St. Anthony": { lat: 44.967889, lng: -93.196339 },
 	"Union Park": { lat: 44.948075, lng: -93.174914 },
 	"Macalester-Groveland": { lat: 44.933344, lng: -93.166897 },
-	"Highland": { lat: 44.911918 lng: -93.176684 },
-	"Summit Hill": { lat: 44.936938, lng:  -93.137956},
-	"Capitol River": { lat: 44.957122, lng: -93.102902 },
-	],
+	"Highland": { lat: 44.911918, lng: -93.176684 },
+	"Summit Hill": { lat: 44.936938, lng:  -93.137956 },
+	"Capitol River": { lat: 44.957122, lng: -93.102902 }
+	},
 	neighCord: [], //manually set up lat and lng
 	codes: [],
 	selecNeigh: [],
