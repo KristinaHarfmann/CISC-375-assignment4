@@ -10,13 +10,15 @@
 		<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 		<script type="application/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 		<script type="application/javascript" src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+		<script type="application/javascript" src="new.js"></script>
 	</head>
-	<body <!--onload="Prompt()"-->>
-	<!-- 
+	<body onload="Prompt()">
+	
 	    <div id="dialog-form">
 			<label for="name">URL for St. Paul Crime API:</label>
 			<input type="text" id="prompt_input" class="text ui-widget-content ui-corner-all" style="width: 320px;"/>
-		</div> -->
+		</div> 
+		
 		<div id="app" class="container">
 			 <div class="row">
 				<div class="col-md-9">
@@ -74,7 +76,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr v-for="(item,key) in fullData">
+						<tr v-for="(item,key) in fullData">						
 							<td>{{ key }} </td>
 							<td>{{ item.date }} </td>
 							<td>{{ item.time }} </td>
@@ -90,7 +92,7 @@
 		</div>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.3.4/vue.min.js"></script>
 		<script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"></script>	
-		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-		<script src="new.js"></script>
+		
+		<script type="application/javascript" src="new.js"></script>
 	</body>
 </html>
