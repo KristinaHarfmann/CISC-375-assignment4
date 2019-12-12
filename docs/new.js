@@ -198,25 +198,34 @@ function Init(crime_api_url) {
 				  {
 					  dataType: "json",
 					  success: function(data){
-						//console.log(data);
+						  if(data.length != 0)
+						  {
+							  var popupEl = document.createElement("div");
+							  var poptitle = document.createElement("p");
+							  var popButton =  document.createElement("button");
+							  poptitle.textContent = incident + ": " + date + " " + time;
+							  popButton.type = "button";
+							  popButton.textContent = 'Delete this marker';
+							  popButton.className = 'marker-delete-button';
+							  popupEl.appendChild(poptitle);
+							  popupEl.appendChild(popButton);
+							  
+							marker = new L.marker([data[0].lat, data[0].lon])
+							.bindPopup(popupEl)
+							.addTo(myMap);
+							app.markers.push(marker);
+							
+							popButton.onclick = function () {
+								myMap.removeLayer(marker);
+							};
+						  }
+						  else {
+							console.log("Can't find address");
+						  }
 						
-						marker = new L.marker([data[0].lat, data[0].lon])
-						.bindPopup(incident + ": " + date + " " + time + "<br><input type='button' value='Delete this marker'/>")
-						.addTo(myMap);
-						app.markers.push(marker);
-						//marker.on("popupopen", app.onPopupOpen());
-						console.log(app.markers);
+
 					  }
 				  });
-			},
-			onPopupOpen() {
-				//console.log("unmark");
-				// var tempMarker = this;
-				 
-				//$(".marker-delete-button:visible").click(function () {
-					//map.removeMarker(tempMarker);
-				//});
-				//map.removeMarker(map.markers[index]);
 			},
 			fixLocation: function (event) {
 				
