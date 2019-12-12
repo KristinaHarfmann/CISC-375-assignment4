@@ -29,24 +29,43 @@ function Init(crime_api_url) {
 		bounds: [], 
 		neighborhoods: [],
 		neighCord: [
-			["Conway/Battlecreek/Highwood", 44.936383, -93.024532, 0],
-			["Greater East Side",44.977610,-93.024602 , 0],
-			["West Side", 44.928944, -93.078443 , 0],
-			["Dayton's Bluff", 44.956316, -93.062232, 0 ],
-			["Payne/Phalen", 44.977068, -93.065946, 0 ],
-			["North End", 44.977127, -93.109990, 0 ],
-			["Thomas/Dale(Frogtown)",44.959894, -93.122334, 0 ],
-			["Summit/University", 44.951839, -93.124963, 0 ],
-			["West Seventh", 44.928629, -93.126618, 0 ],
-			["Como", 44.980425, -93.155332, 0 ],
-			["Hamlin/Midway", 44.962336,  -93.164337, 0 ],
-			["St. Anthony", 44.967889, -93.196339, 0 ],
-			["Union Park", 44.948075, -93.174914, 0 ],
-			["Macalester-Groveland", 44.933344, -93.166897, 0 ],
-			["Highland", 44.911918, -93.176684, 0 ],
-			["Summit Hill", 44.936938, -93.137956, 0 ],
-			["Capitol River", 44.957122, -93.102902, 0 ]
+			["Conway/Battlecreek/Highwood", 44.936383, -93.024532],
+			["Greater East Side",44.977610,-93.024602 ],
+			["West Side", 44.928944, -93.078443 ],
+			["Dayton's Bluff", 44.956316, -93.062232],
+			["Payne/Phalen", 44.977068, -93.065946],
+			["North End", 44.977127, -93.109990],
+			["Thomas/Dale(Frogtown)",44.959894, -93.122334],
+			["Summit/University", 44.951839, -93.124963],
+			["West Seventh", 44.928629, -93.126618],
+			["Como", 44.980425, -93.155332],
+			["Hamlin/Midway", 44.962336,  -93.164337],
+			["St. Anthony", 44.967889, -93.196339],
+			["Union Park", 44.948075, -93.174914 ],
+			["Macalester-Groveland", 44.933344, -93.166897],
+			["Highland", 44.911918, -93.176684],
+			["Summit Hill", 44.936938, -93.137956],
+			["Capitol River", 44.957122, -93.102902 ]
 		], //manually set up lat and lng
+		neighCounts: {
+			"N1" : 0,
+			"N2" : 0,
+			"N3" : 0,
+			"N4" : 0,
+			"N5" : 0,
+			"N6" : 0,
+			"N7" : 0,
+			"N8" : 0,
+			"N9" : 0,
+			"N10" : 0,
+			"N11" : 0,
+			"N12" : 0,
+			"N13" : 0,
+			"N14" : 0,
+			"N15" : 0,
+			"N16" : 0,
+			"N17" : 0,
+		},
 		codes: [],
 		selecNeigh: [],
 		selecInc: [],
@@ -54,6 +73,7 @@ function Init(crime_api_url) {
 		endDate: "2019-10-31",
 		startTime: "",
 		endTime: "",
+		markers: [],
 	  },
 	  mounted() {
 		  this.initMap();
@@ -82,6 +102,7 @@ function Init(crime_api_url) {
 			myMap.setMaxBounds(myBounds);
 			
 			for (var i = 0; i < this.neighCord.length; i++) {
+				//console.log(this.neighCounts[i]);
 				marker = new L.marker([this.neighCord[i][1],this.neighCord[i][2]])
 				.bindPopup(this.neighCord[i][0] +": " +  this.neighCord[i][3])
 				.addTo(myMap);
@@ -164,8 +185,41 @@ function Init(crime_api_url) {
 				  }
 			  });
 			},
+			mark: function (event) {
+				//console.log(event);
+				//console.log(event.path[1].children[0].innerText);
+				
+				var block = event.path[1].children[7].innerText;
+				var date = event.path[1].children[1].innerText;
+				var time = event.path[1].children[2].innerText;
+				var incident = event.path[1].children[4].innerText;
+				var number = event.path[1].children[0].innerText;
+				$.ajax('http://nominatim.openstreetmap.org/search?addressdetails=1&q='+ block + '&viewbox=-93.207270,44.988269,-93.004966,44.891888&bounded=1&format=json&limit=1',
+				  {
+					  dataType: "json",
+					  success: function(data){
+						//console.log(data);
+						
+						marker = new L.marker([data[0].lat, data[0].lon])
+						.bindPopup(incident + ": " + date + " " + time + "<br><input type='button' value='Delete this marker'/>")
+						.addTo(myMap);
+						app.markers.push(marker);
+						//marker.on("popupopen", app.onPopupOpen());
+						console.log(app.markers);
+					  }
+				  });
+			},
+			onPopupOpen() {
+				//console.log("unmark");
+				// var tempMarker = this;
+				 
+				//$(".marker-delete-button:visible").click(function () {
+					//map.removeMarker(tempMarker);
+				//});
+				//map.removeMarker(map.markers[index]);
+			},
 			fixLocation: function (event) {
-
+				
 				app.bounds = myMap.getBounds();
 				
 			},
@@ -205,6 +259,4 @@ function Init(crime_api_url) {
 }
 
 
-//function Init(crime_api_url) {
-	//console.log(crime_api_url);
-//}
+

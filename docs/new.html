@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		<h1> St. Paul Crime Map </h1>
 		<title>Crime Map</title>
 		<meta charset="utf-8"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -62,7 +63,7 @@
 				</div>
 			</div>
 			<div class="table">
-				<table>
+				<table id = "table">
 					<thead>
 						<tr>
 							<th> Incident Number </th>
@@ -75,8 +76,8 @@
 							<th> Block </th>
 						</tr>
 					</thead>
-					<tbody>
-						<tr v-for="(item,key) in fullData">						
+					<tbody id="body">
+						<tr id ="rows" v-for="(item,key) in fullData" :class="'c' + item.code" v-on:click="mark">
 							<td>{{ key }} </td>
 							<td>{{ item.date }} </td>
 							<td>{{ item.time }} </td>
