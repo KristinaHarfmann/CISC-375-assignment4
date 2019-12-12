@@ -71,8 +71,8 @@ function Init(crime_api_url) {
 		selecInc: [],
 		startDate: "2019-10-01",
 		endDate: "2019-10-31",
-		startTime: "",
-		endTime: "",
+		startTime: "00:00",
+		endTime: "23:59",
 		markers: [],
 	  },
 	  mounted() {
@@ -186,8 +186,6 @@ function Init(crime_api_url) {
 			  });
 			},
 			mark: function (event) {
-				//console.log(event);
-				//console.log(event.path[1].children[0].innerText);
 				
 				var block = event.path[1].children[7].innerText;
 				var date = event.path[1].children[1].innerText;
@@ -213,6 +211,7 @@ function Init(crime_api_url) {
 							marker = new L.marker([data[0].lat, data[0].lon])
 							.bindPopup(popupEl)
 							.addTo(myMap);
+							
 							app.markers.push(marker);
 							
 							popButton.onclick = function () {

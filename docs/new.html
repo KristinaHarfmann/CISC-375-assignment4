@@ -82,7 +82,7 @@
 						</tr>
 					</thead>
 					<tbody id="body">
-						<tr id ="rows" v-for="(item,key) in fullData" :class="'C' + item.code" v-on:click="mark">
+						<tr id ="rows" v-for="(item,key) in fullData" v-if="((item.time >= startTime) && (item.time <= endTime))" :class="'C' + item.code" v-on:click="mark">
 							<td>{{ key }} </td>
 							<td>{{ item.date }} </td>
 							<td>{{ item.time }} </td>
