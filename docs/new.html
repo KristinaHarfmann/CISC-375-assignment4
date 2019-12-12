@@ -62,6 +62,11 @@
 					<input id="check" type="checkbox"  v-model="selecInc" :value="key" v-on:click="check">{{ key }}: {{ item }}</input><br>
 				</div>
 			</div>
+			<ul class="legend">
+				<li><span style="background-color:rgb(245, 86, 86);"></span> Violent Crimes</li>
+				<li><span style="background-color:rgb(111, 132, 237);"></span> Property Crimes</li>
+				<li><span style="background-color:rgb(235, 235, 80);"></span> Other Crimes</li>
+			</ul>
 			<div class="table">
 				<table id = "table">
 					<thead>
@@ -69,19 +74,19 @@
 							<th> Incident Number </th>
 							<th> Date </th>
 							<th> Time </th>
-							<th> Code </th>
-							<th> Incident Type</th>
+							<th> Incident Type </th>
+							<th> Incident</th>
 							<th> Police Grid </th>
 							<th> Neighborhood Name </th>
 							<th> Block </th>
 						</tr>
 					</thead>
 					<tbody id="body">
-						<tr id ="rows" v-for="(item,key) in fullData" :class="'c' + item.code" v-on:click="mark">
+						<tr id ="rows" v-for="(item,key) in fullData" :class="'C' + item.code" v-on:click="mark">
 							<td>{{ key }} </td>
 							<td>{{ item.date }} </td>
 							<td>{{ item.time }} </td>
-							<td>{{ item.code }} </td>
+							<td>{{ codes["C" + item.code] }} </td>
 							<td>{{ item.incident }} </td>
 							<td>{{ item.police_grid }} </td>
 							<td>{{ neighborhoods["N" +item.neighborhood_number] }} </td>
