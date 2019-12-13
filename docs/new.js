@@ -72,7 +72,7 @@ function Init(crime_api_url) {
 		startDate: "2019-10-01",
 		endDate: "2019-10-31",
 		startTime: "00:00",
-		endTime: "23:59",
+		endTime: "23:59 ",
 		markers: [],
 	  },
 	  mounted() {
