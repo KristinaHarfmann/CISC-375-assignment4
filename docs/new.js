@@ -48,32 +48,13 @@ function Init(crime_api_url) {
 			["Capitol River", 44.957122, -93.102902,0 ]
 		], //manually set up lat and lng
 		showNeigh: [false,false,true,true,true,true,true,true,true,false,false,false,false,false,false,false,true], // the nieghborhoods that show up in the default position are truemarkerSearch
-		neighCounts: {
-			"N1" : 0,
-			"N2" : 0,
-			"N3" : 0,
-			"N4" : 0,
-			"N5" : 0,
-			"N6" : 0,
-			"N7" : 0,
-			"N8" : 0,
-			"N9" : 0,
-			"N10" : 0,
-			"N11" : 0,
-			"N12" : 0,
-			"N13" : 0,
-			"N14" : 0,
-			"N15" : 0,
-			"N16" : 0,
-			"N17" : 0,
-		},
 		codes: [],
 		selecNeigh: [],
 		selecInc: [],
 		startDate: "2019-10-01",
 		endDate: "2019-10-31",
 		startTime: "00:00",
-		endTime: "23:59 ",
+		endTime: "23:59:00",
 		markers: [],
 	  },
 	  mounted() {
@@ -130,10 +111,8 @@ function Init(crime_api_url) {
 							app.showNeigh[nbrhd] = true;
 						} else {
 							app.showNeigh[nbrhd] = false;
-						}
-						
+						}	
 					}
-					
 				});	//move		
 		  },
 		  submit: function (event) {
@@ -214,7 +193,16 @@ function Init(crime_api_url) {
 							  popupEl.appendChild(poptitle);
 							  popupEl.appendChild(popButton);
 							  
-							marker = new L.marker([data[0].lat, data[0].lon])
+							var redIcon = new L.Icon({
+							  iconUrl: 'marker-icon-red.png',
+							  shadowUrl: 'marker-shadow.png',
+							  iconSize: [25, 41],
+							  iconAnchor: [12, 41],
+							  popupAnchor: [1, -34],
+							  shadowSize: [41, 41]
+							});
+							
+							var marker = new L.marker([data[0].lat, data[0].lon], {icon: redIcon})
 							.bindPopup(popupEl)
 							.addTo(myMap);
 							
@@ -267,21 +255,21 @@ function Init(crime_api_url) {
 			},
 		},//methods
 	});
-			function getCounts(data) {
-				
-				for(let i in data)
-				{
-					app.neighCord[Number(data[i]["neighborhood_number"]) - 1][3] = app.neighCord[Number(data[i]["neighborhood_number"]) - 1][3] + 1;
+function getCounts(data) {
+	
+	for(let i in data)
+	{
+		app.neighCord[Number(data[i]["neighborhood_number"]) - 1][3] = app.neighCord[Number(data[i]["neighborhood_number"]) - 1][3] + 1;
 
-				}
-				for (var i = 0; i < app.neighCord.length; i++) {
+	}
+	for (var i = 0; i < app.neighCord.length; i++) {
 
-					marker = new L.marker([app.neighCord[i][1],app.neighCord[i][2]])
-					.bindPopup(app.neighCord[i][0] +": " +  app.neighCord[i][3])
-					.addTo(myMap);
-				}
-				
-			}
+		marker = new L.marker([app.neighCord[i][1],app.neighCord[i][2]])
+		.bindPopup(app.neighCord[i][0] +": " +  app.neighCord[i][3])
+		.addTo(myMap);
+	}
+	
+}
 
 }
 
