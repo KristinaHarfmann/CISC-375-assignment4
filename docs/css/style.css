@@ -3,9 +3,18 @@
 }
 h1 {
 	text-align: center;
+	background-color: white;
+
+}
+
+
+
+break {
+	background-color: white;
 }
 h2 {
 	text-align: center;
+	background-color: white;
 }
 html {
     font-family: Arial, Helvetica, sans-serif;
@@ -14,8 +23,8 @@ html {
     height: 100%;
 }
 body {
-  background-image: url("https://www.crwflags.com/fotw/images/u/us-mnspl.gif");
-  background-repeat: no-repeat;
+  background-image: url("https://images.freeimages.com/images/large-previews/2a7/polly-background-1631651.jpg");
+  background-repeat: repeat;
   background-position: right top;
 }
 .row {
