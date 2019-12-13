@@ -29,24 +29,25 @@ function Init(crime_api_url) {
 		bounds: [], 
 		neighborhoods: [],
 		neighCord: [
-			["Conway/Battlecreek/Highwood", 44.936383, -93.024532],
-			["Greater East Side",44.977610,-93.024602 ],
-			["West Side", 44.928944, -93.078443 ],
-			["Dayton's Bluff", 44.956316, -93.062232],
-			["Payne/Phalen", 44.977068, -93.065946],
-			["North End", 44.977127, -93.109990],
-			["Thomas/Dale(Frogtown)",44.959894, -93.122334],
-			["Summit/University", 44.951839, -93.124963],
-			["West Seventh", 44.928629, -93.126618],
-			["Como", 44.980425, -93.155332],
-			["Hamlin/Midway", 44.962336,  -93.164337],
-			["St. Anthony", 44.967889, -93.196339],
-			["Union Park", 44.948075, -93.174914 ],
-			["Macalester-Groveland", 44.933344, -93.166897],
-			["Highland", 44.911918, -93.176684],
-			["Summit Hill", 44.936938, -93.137956],
-			["Capitol River", 44.957122, -93.102902 ]
+			["Conway/Battlecreek/Highwood", 44.936383, -93.024532,0],
+			["Greater East Side",44.977610,-93.024602,0],
+			["West Side", 44.928944, -93.078443,0],
+			["Dayton's Bluff", 44.956316, -93.062232,0],
+			["Payne/Phalen", 44.977068, -93.065946,0],
+			["North End", 44.977127, -93.109990,0],
+			["Thomas/Dale(Frogtown)",44.959894, -93.122334,0],
+			["Summit/University", 44.951839, -93.124963,0],
+			["West Seventh", 44.928629, -93.126618,0],
+			["Como", 44.980425, -93.155332,0],
+			["Hamlin/Midway", 44.962336,  -93.164337,0],
+			["St. Anthony", 44.967889, -93.196339,0],
+			["Union Park", 44.948075, -93.174914,0 ],
+			["Macalester-Groveland", 44.933344, -93.166897,0],
+			["Highland", 44.911918, -93.176684,0],
+			["Summit Hill", 44.936938, -93.137956,0],
+			["Capitol River", 44.957122, -93.102902,0 ]
 		], //manually set up lat and lng
+		showNeigh: [false,false,true,true,true,true,true,true,true,false,false,false,false,false,false,false,true], // the nieghborhoods that show up in the default position are truemarkerSearch
 		neighCounts: {
 			"N1" : 0,
 			"N2" : 0,
@@ -101,12 +102,6 @@ function Init(crime_api_url) {
 			var myBounds = L.latLngBounds(northWest, southEast);
 			myMap.setMaxBounds(myBounds);
 			
-			for (var i = 0; i < this.neighCord.length; i++) {
-				//console.log(this.neighCounts[i]);
-				marker = new L.marker([this.neighCord[i][1],this.neighCord[i][2]])
-				.bindPopup(this.neighCord[i][0] +": " +  this.neighCord[i][3])
-				.addTo(myMap);
-			}
 		  },
 		  getCord()
 		  {
@@ -128,6 +123,17 @@ function Init(crime_api_url) {
 					  });	
 				  }//else
 				app.fixLocation();
+			
+					for (let nbrhd = 0; nbrhd < app.neighCord.length; nbrhd++){
+						var mb = myMap.getBounds();
+						if (mb.contains(L.latLng(app.neighCord[nbrhd][1],app.neighCord[nbrhd][2]))){
+							app.showNeigh[nbrhd] = true;
+						} else {
+							app.showNeigh[nbrhd] = false;
+						}
+						
+					}
+					
 				});	//move		
 		  },
 		  submit: function (event) {
@@ -181,7 +187,7 @@ function Init(crime_api_url) {
 				  dataType: "json",
 				  success: function(data){
 					app.fullData = data;
-					//console.log(app.incData);
+					getCounts(data);
 				  }
 			  });
 			},
@@ -221,8 +227,6 @@ function Init(crime_api_url) {
 						  else {
 							console.log("Can't find address");
 						  }
-						
-
 					  }
 				  });
 			},
@@ -238,7 +242,7 @@ function Init(crime_api_url) {
 				  dataType: "json",
 				  success: function(data){
 					app.fullData = data;
-					//console.log(app.incData);
+					getCounts(data);
 				  }
 			  });
 			},
@@ -248,7 +252,6 @@ function Init(crime_api_url) {
 					  dataType: "json",
 					  success: function(data){
 						app.neighborhoods = data;
-						//console.log(data);
 					  }
 				  });
 			},
@@ -264,7 +267,22 @@ function Init(crime_api_url) {
 			},
 		},//methods
 	});
-}
+			function getCounts(data) {
+				
+				for(let i in data)
+				{
+					app.neighCord[Number(data[i]["neighborhood_number"]) - 1][3] = app.neighCord[Number(data[i]["neighborhood_number"]) - 1][3] + 1;
 
+				}
+				for (var i = 0; i < app.neighCord.length; i++) {
+
+					marker = new L.marker([app.neighCord[i][1],app.neighCord[i][2]])
+					.bindPopup(app.neighCord[i][0] +": " +  app.neighCord[i][3])
+					.addTo(myMap);
+				}
+				
+			}
+
+}
 
 
