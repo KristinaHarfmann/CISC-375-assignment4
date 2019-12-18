@@ -160,7 +160,7 @@ function Init(crime_api_url) {
 				
 				endUrl = endUrl + "&start_date=" + app.startDate;
 				endUrl = endUrl + "&end_date=" + app.endDate;
-				
+
 				$.ajax(this.url + '/incidents?'+ endUrl,
 			  {
 				  dataType: "json",
@@ -257,14 +257,17 @@ function Init(crime_api_url) {
 	});
 function getCounts(data) {
 	
+	for(var j = 0; j < 17; j++)
+	{
+		app.neighCord[j][3] = 0;
+	}
+	
 	for(let i in data)
 	{
-		app.neighCord[Number(data[i]["neighborhood_number"]) - 1][3] = app.neighCord[Number(data[i]["neighborhood_number"]) - 1][3] + 1;
-
+		app.neighCord[Number(data[i]["neighborhood_number"]) - 1][3] = (app.neighCord[Number(data[i]["neighborhood_number"]) - 1][3]) + 1;
 	}
 	for (var i = 0; i < app.neighCord.length; i++) {
-
-		marker = new L.marker([app.neighCord[i][1],app.neighCord[i][2]])
+		var marker = new L.marker([app.neighCord[i][1],app.neighCord[i][2]])
 		.bindPopup(app.neighCord[i][0] +": " +  app.neighCord[i][3])
 		.addTo(myMap);
 	}
