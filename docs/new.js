@@ -215,7 +215,16 @@ function Init(crime_api_url) {
 							  popupEl.appendChild(poptitle);
 							  popupEl.appendChild(popButton);
 							  
-							marker = new L.marker([data[0].lat, data[0].lon])
+							var redIcon = new L.Icon({
+							  iconUrl: 'marker-icon-red.png',
+							  shadowUrl: 'marker-shadow.png',
+							  iconSize: [25, 41],
+							  iconAnchor: [12, 41],
+							  popupAnchor: [1, -34],
+							  shadowSize: [41, 41]
+							});
+							
+							var marker = new L.marker([data[0].lat, data[0].lon], {icon: redIcon})
 							.bindPopup(popupEl)
 							.addTo(myMap);
 							
