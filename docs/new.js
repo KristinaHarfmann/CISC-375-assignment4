@@ -270,6 +270,11 @@ function Init(crime_api_url) {
 	});
 			function getCounts(data) {
 				
+					for(var j = 0; j < 17; j++)
+					{
+						app.neighCord[j][3] = 0;
+					}
+	
 				for(let i in data)
 				{
 					app.neighCord[Number(data[i]["neighborhood_number"]) - 1][3] = app.neighCord[Number(data[i]["neighborhood_number"]) - 1][3] + 1;
