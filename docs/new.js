@@ -182,6 +182,7 @@ function Init(crime_api_url) {
 				endUrl = endUrl + "&start_date=" + app.startDate;
 				endUrl = endUrl + "&end_date=" + app.endDate;
 				
+
 				$.ajax(this.url + '/incidents?'+ endUrl,
 			  {
 				  dataType: "json",
